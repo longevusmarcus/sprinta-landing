@@ -36,8 +36,22 @@
   .reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}
   .grain{position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:1;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-  .step{display:grid;grid-template-columns:90px 1fr;gap:28px;padding:30px 0;}
-  @media(max-width:640px){.step{grid-template-columns:1fr;gap:10px;}}
+  .step{display:grid;grid-template-columns:60px 1fr 160px;gap:26px;padding:32px 0;align-items:center;}
+  @media(max-width:760px){.step{grid-template-columns:1fr;gap:10px;}.anim{display:none;}}
+  .anim{display:flex;align-items:center;justify-content:center;}
+  .anim svg{overflow:visible;}
+  .flag{transform-box:fill-box;transform-origin:left center;animation:wave 2.4s ease-in-out infinite;}
+  @keyframes wave{0%,100%{transform:skewY(-5deg) scaleX(.97)}50%{transform:skewY(5deg) scaleX(1)}}
+  .cell{transform-box:fill-box;transform-origin:50% 100%;animation:cellin 3.2s ease-in-out infinite;}
+  .cell.c2{animation-delay:.18s}.cell.c3{animation-delay:.36s}.cell.c4{animation-delay:.54s}.cell.c5{animation-delay:.72s}.cell.c6{animation-delay:.9s}.cell.c7{animation-delay:1.08s}
+  @keyframes cellin{0%{opacity:.2;transform:scaleY(.2)}24%,80%{opacity:1;transform:scaleY(1)}100%{opacity:.2;transform:scaleY(.2)}}
+  .marker{animation:drift 3.6s ease-in-out infinite;}
+  @keyframes drift{0%,8%{transform:translateX(0)}38%{transform:translateX(46px)}50%{transform:translateX(46px)}78%,100%{transform:translateX(0)}}
+  .dot{animation:blink 1.3s ease-in-out infinite;}
+  .dot.t2{animation-delay:.22s}.dot.t3{animation-delay:.44s}
+  @keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+  .bubble{transform-box:fill-box;transform-origin:left bottom;animation:bubblein 3.2s ease-in-out infinite;}
+  @keyframes bubblein{0%{opacity:0;transform:translateY(7px) scale(.9)}20%,86%{opacity:1;transform:none}100%{opacity:0;transform:translateY(7px) scale(.9)}}
   .rw{color:var(--rw-dim);transition:color .25s ease;}
   .rw-accent{font-style:italic;}
 
@@ -174,19 +188,23 @@
   <div class="step reveal"><span class="serif ember" style="font-size:32px;">01</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">Choose your race</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">Pick the marathon and the time you're after. Sprinta tells you, honestly, whether it's within reach this season, or shows you a race that is.</p>
-    <p class="sowhat">So you start with a goal you can actually trust.</p></div></div>
+    <p class="sowhat">So you start with a goal you can actually trust.</p></div>
+    <div class="anim"><svg width="150" height="96" viewBox="0 0 150 96"><text x="76" y="20" text-anchor="middle" class="serif" fill="var(--muted)" font-size="13" font-style="italic">3:30</text><line x1="58" y1="30" x2="58" y2="84" stroke="var(--muted)" stroke-width="1.5"/><circle cx="58" cy="84" r="2.5" fill="var(--muted)"/><g class="flag"><rect x="58" y="30" width="36" height="24" fill="var(--ember)"/><g fill="#161311"><rect x="58" y="30" width="9" height="6"/><rect x="76" y="30" width="9" height="6"/><rect x="67" y="36" width="9" height="6"/><rect x="85" y="36" width="9" height="6"/><rect x="58" y="42" width="9" height="6"/><rect x="76" y="42" width="9" height="6"/><rect x="67" y="48" width="9" height="6"/><rect x="85" y="48" width="9" height="6"/></g></g></svg></div></div>
   <div class="step reveal d1"><span class="serif ember" style="font-size:32px;">02</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">Get a plan built for it</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">A plan worked back from race day and your real fitness, synced automatically with Garmin and Strava, so every run you do is already counted.</p>
-    <p class="sowhat">So you train for your race, not a generic template.</p></div></div>
+    <p class="sowhat">So you train for your race, not a generic template.</p></div>
+    <div class="anim"><svg width="150" height="96" viewBox="0 0 150 96"><g fill="var(--muted)" font-size="8" text-anchor="middle"><text x="21" y="30">M</text><text x="39" y="30">T</text><text x="57" y="30">W</text><text x="75" y="30">T</text><text x="93" y="30">F</text><text x="111" y="30">S</text><text x="129" y="30">S</text></g><rect class="cell" x="15" y="40" width="12" height="26" rx="3" fill="var(--ember)"/><rect class="cell c2" x="33" y="40" width="12" height="26" rx="3" fill="var(--ember)"/><rect class="cell c3" x="51" y="40" width="12" height="26" rx="3" fill="var(--ember)"/><rect class="cell c4" x="69" y="40" width="12" height="26" rx="3" fill="var(--ember)"/><rect class="cell c5" x="87" y="40" width="12" height="26" rx="3" fill="var(--ember)"/><rect class="cell c6" x="105" y="40" width="12" height="26" rx="3" fill="var(--ember)"/><rect class="cell c7" x="123" y="40" width="12" height="26" rx="3" fill="var(--ember)"/></svg></div></div>
   <div class="step reveal d2"><span class="serif ember" style="font-size:32px;">03</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">It keeps you honest</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">Miss a week or pick up a niggle and your plan rebuilds toward race day. And it holds you to easy-easy, hard-hard, so you stop running your easy days too hard and quietly sabotaging the block.</p>
-    <p class="sowhat">So you do the training that actually works, not just the training you feel like.</p></div></div>
+    <p class="sowhat">So you do the training that actually works, not just the training you feel like.</p></div>
+    <div class="anim"><svg width="150" height="96" viewBox="0 0 150 96"><text x="39" y="34" text-anchor="middle" fill="var(--mint)" font-size="9">easy</text><text x="115" y="34" text-anchor="middle" fill="var(--muted)" font-size="9">hard</text><rect x="19" y="44" width="112" height="6" rx="3" fill="#221d18"/><rect x="19" y="44" width="50" height="6" rx="3" fill="var(--mint)" opacity=".45"/><circle class="marker" cx="39" cy="47" r="6" fill="var(--ember)"/></svg></div></div>
   <div class="step reveal d3"><span class="serif ember" style="font-size:32px;">04</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">A human, when it counts</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">The AI coaches you day to day. For the calls an algorithm shouldn't make, the niggle, the taper, the week it all goes wrong, a certified human steps in alongside you.</p>
-    <p class="sowhat">So someone is accountable for your result, not just your data.</p></div></div>
+    <p class="sowhat">So someone is accountable for your result, not just your data.</p></div>
+    <div class="anim"><svg width="150" height="96" viewBox="0 0 150 96"><g class="bubble" transform="translate(58,22)"><rect x="0" y="0" width="58" height="28" rx="12" fill="var(--card)" stroke="var(--line)"/><path d="M9,26 L3,38 L21,27 Z" fill="var(--card)"/><circle class="dot" cx="17" cy="14" r="2.6" fill="var(--muted)"/><circle class="dot t2" cx="29" cy="14" r="2.6" fill="var(--muted)"/><circle class="dot t3" cx="41" cy="14" r="2.6" fill="var(--muted)"/></g><g transform="translate(42,60)"><circle r="15" fill="var(--card-2)" stroke="var(--ember)" stroke-width="1"/><text y="4" text-anchor="middle" class="serif" fill="var(--ember)" font-size="12">MR</text><circle cx="11" cy="10" r="3.4" fill="var(--mint)" stroke="var(--card-2)" stroke-width="1.6"/></g></svg></div></div>
 </section>
 
 <hr class="hair" />
