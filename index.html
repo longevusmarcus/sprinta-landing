@@ -484,7 +484,7 @@
     "Stretch goal":"Obiettivo ambizioso","Realistic":"Realistica","Dream":"Sogno",
     "Marathon":"Maratona","2 seasons":"2 stagioni","7 Dec · 🇪🇸 · fast":"7 dic · 🇪🇸 · veloce",
     "Discover":"Scopri","Progress":"Progressi","Plan":"Piano","Human":"Umano",
-    "There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result.":"C'è una maratona che vuoi correre, e un tempo che insegui. Per arrivarci non servono altri dati: serve un coaching che si adatta alla tua vita, la disciplina che decide le gare e una persona vera che risponde del tuo risultato.",
+    "There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result.":"C'è una maratona che vuoi correre, e un tempo che insegui. Per arrivarci non servono altri dati: serve un allenamento che si adatta alla tua vita, la disciplina che decide le gare e una persona vera che risponde del tuo risultato.",
     "How it works":"Come funziona",
     "Choose your race":"Scegli la tua gara",
     "Pick the marathon and the time you're after. Sprinta tells you, honestly, whether it's within reach this season, or shows you a race that is.":"Scegli la maratona e il tempo che vuoi. Sprinta ti dice, onestamente, se è alla tua portata questa stagione, o ti mostra una gara che lo è.",
@@ -522,7 +522,7 @@
     "The human":"L'umano","A certified coach you message and book when it counts.":"Un coach certificato da scrivere e prenotare quando serve.",
     "How Sprinta compares":"Sprinta a confronto",
     "Built for one thing: the half and full marathon, for runners chasing a time. Not a generic all-distance app.":"Pensato per una cosa sola: la mezza e la maratona, per chi insegue un tempo. Non un'app generica per tutte le distanze.",
-    "Better coaching for":"Un coaching migliore per","half and full marathons":"la mezza e la maratona",
+    "Better coaching for":"Un allenamento migliore per","half and full marathons":"la mezza e la maratona",
     "Offline coach":"Coach di persona",
     "Adapts to missed weeks & niggles":"Si adatta a settimane saltate e fastidi",
     "Honest readiness toward your goal time":"Verdetto onesto sul tempo obiettivo",
@@ -564,7 +564,7 @@
   let spans=[], ticking=false;
   function buildManifesto(l){
     const txt = l==='it'?manifesto.it:manifesto.en;
-    revealEl.innerHTML = txt.split(/\s+/).map(w=>'<span class="rw'+(w.toLowerCase().replace(/[^a-zà-ù]/gi,'')==='coaching'?' rw-accent':'')+'">'+w+'</span>').join(' ');
+    revealEl.innerHTML = txt.split(/\s+/).map(w=>'<span class="rw'+(['coaching','allenamento'].includes(w.toLowerCase().replace(/[^a-zà-ù]/gi,''))?' rw-accent':'')+'">'+w+'</span>').join(' ');
     spans=revealEl.querySelectorAll('.rw');
     updateReveal();
   }
