@@ -24,6 +24,7 @@
   .muted{color:var(--muted)!important;}.ember{color:var(--ember)!important;}
   .label{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);font-weight:400;}
   .hair{height:1px;background:var(--line);border:0;}
+  .band{position:relative;background:#141311;box-shadow:0 0 0 100vmax #141311;clip-path:inset(0 -100vmax);}
   .cta{display:inline-flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;
     color:var(--text);text-decoration:none;padding-bottom:8px;border-bottom:1px solid var(--ember);transition:gap .25s,color .25s;}
   .cta:hover{gap:20px;color:var(--ember);}
@@ -33,7 +34,7 @@
   .reveal{opacity:0;transform:translateY(20px);transition:opacity 1s ease,transform 1s ease;}
   .reveal.in{opacity:1;transform:none;}
   .reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}
-  .grain{position:fixed;inset:0;pointer-events:none;opacity:.025;z-index:1;
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:1;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   .step{display:grid;grid-template-columns:90px 1fr;gap:28px;padding:30px 0;}
   @media(max-width:640px){.step{grid-template-columns:1fr;gap:10px;}}
@@ -103,7 +104,12 @@
       <a href="#begin" class="cta reveal in d2">Request access
         <svg width="22" height="10" viewBox="0 0 22 10" fill="none"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
       </a>
-      <p class="serif reveal in d3" style="font-style:italic;font-size:15px;color:var(--muted);letter-spacing:.01em;margin-top:30px;">Built by runners. Access by invitation.</p>
+      <p class="serif reveal in d3" style="font-style:italic;font-size:13px;color:var(--muted);letter-spacing:.01em;margin-top:30px;margin-bottom:14px;">Official partners</p>
+      <div class="reveal in d3" style="margin-top:0;display:inline-flex;align-items:center;gap:14px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 16px;background:#fff;border-radius:10px;"><img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Comitato_Olimpico_Nazionale_Italiano_(CONI)_Logo.svg" alt="CONI" style="height:30px;width:auto;display:block;" /></span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 16px;background:#fff;border-radius:10px;"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Logo-fitri.jpg" alt="FITRI" style="height:26px;width:auto;display:block;" /></span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 16px;background:#fff;border-radius:10px;"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/FIDAL_logo.svg" alt="FIDAL" style="height:28px;width:auto;display:block;" /></span>
+      </div>
     </div>
     <!-- hero phone: Discover -->
     <div class="reveal in d3" style="display:flex;justify-content:center;">
@@ -156,7 +162,7 @@
 <hr class="hair" />
 
 <!-- PROBLEM -->
-<section class="wrap" style="padding:130px 0;">
+<section class="wrap band" style="min-height:100vh;display:flex;align-items:center;padding:90px 0;">
   <p id="scrollReveal" class="serif" style="font-size:clamp(27px,3.8vw,42px);line-height:1.45;font-weight:400;max-width:30ch;">There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result.</p>
 </section>
 
@@ -169,15 +175,15 @@
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">Choose your race</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">Pick the marathon and the time you're after. Sprinta tells you, honestly, whether it's within reach this season, or shows you a race that is.</p>
     <p class="sowhat">So you start with a goal you can actually trust.</p></div></div>
-  <div class="step reveal"><span class="serif ember" style="font-size:32px;">02</span>
+  <div class="step reveal d1"><span class="serif ember" style="font-size:32px;">02</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">Get a plan built for it</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">A plan worked back from race day and your real fitness, synced automatically with Garmin and Strava, so every run you do is already counted.</p>
     <p class="sowhat">So you train for your race, not a generic template.</p></div></div>
-  <div class="step reveal"><span class="serif ember" style="font-size:32px;">03</span>
+  <div class="step reveal d2"><span class="serif ember" style="font-size:32px;">03</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">It keeps you honest</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">Miss a week or pick up a niggle and your plan rebuilds toward race day. And it holds you to easy-easy, hard-hard, so you stop running your easy days too hard and quietly sabotaging the block.</p>
     <p class="sowhat">So you do the training that actually works, not just the training you feel like.</p></div></div>
-  <div class="step reveal"><span class="serif ember" style="font-size:32px;">04</span>
+  <div class="step reveal d3"><span class="serif ember" style="font-size:32px;">04</span>
     <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">A human, when it counts</h3>
     <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">The AI coaches you day to day. For the calls an algorithm shouldn't make, the niggle, the taper, the week it all goes wrong, a certified human steps in alongside you.</p>
     <p class="sowhat">So someone is accountable for your result, not just your data.</p></div></div>
@@ -186,7 +192,7 @@
 <hr class="hair" />
 
 <!-- INSIDE THE APP — showcase -->
-<section style="padding:110px 0;">
+<section class="band" style="padding:110px 0;">
   <div class="wrap reveal" style="margin-bottom:56px;">
     <p class="label" style="margin-bottom:16px;">Inside Sprinta</p>
     <h2 class="serif" style="font-size:clamp(28px,4vw,44px);font-weight:400;line-height:1.15;margin:0;max-width:20ch;">
@@ -258,7 +264,13 @@
                 <span class="chip chip-mint" style="margin-top:8px;">On track · closing the gap</span>
               </div>
               <div class="softcard" style="padding:14px 16px;margin-bottom:13px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span style="font-size:12px;">Fitness trend</span><span class="muted" style="font-size:10px;">8 weeks</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <span style="font-size:12px;">Fitness trend</span>
+                  <span style="display:flex;gap:5px;align-items:center;">
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;padding:4px 8px;border-radius:999px;background:var(--card-2);border:1px solid var(--line);"><span style="width:5px;height:5px;border-radius:50%;background:var(--mint);box-shadow:0 0 5px var(--mint);"></span>Garmin</span>
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;padding:4px 8px;border-radius:999px;background:var(--card-2);border:1px solid var(--line);"><span style="width:5px;height:5px;border-radius:50%;background:var(--mint);box-shadow:0 0 5px var(--mint);"></span>Strava</span>
+                  </span>
+                </div>
                 <div class="spark"><i style="height:38%"></i><i style="height:44%"></i><i style="height:41%"></i><i style="height:55%"></i><i style="height:60%"></i><i style="height:58%"></i><i style="height:72%"></i><i class="on" style="height:84%"></i></div>
               </div>
               <div class="softcard" style="padding:14px 16px;background:var(--card-2);">
@@ -278,53 +290,51 @@
           <div class="screen">
             <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><i data-lucide="signal" style="width:13px;height:13px;"></i><i data-lucide="wifi" style="width:13px;height:13px;"></i><i data-lucide="battery-full" style="width:17px;height:13px;"></i></span></div>
             <div class="scrollbody">
-              <div style="margin:6px 0 14px;">
-                <p class="label" style="margin-bottom:5px;">This week</p><h2 class="serif" style="font-size:22px;font-weight:400;margin:0;">Your plan</h2>
-              </div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:14px;">
-                <span class="muted" style="font-size:11px;width:30px;text-align:center;">M</span><span class="muted" style="font-size:11px;width:30px;text-align:center;">T</span>
-                <span style="font-size:11px;width:30px;text-align:center;color:var(--text);background:var(--ember);border-radius:9px;padding:5px 0;">W</span>
-                <span class="muted" style="font-size:11px;width:30px;text-align:center;">T</span><span class="muted" style="font-size:11px;width:30px;text-align:center;">F</span>
-                <span class="muted" style="font-size:11px;width:30px;text-align:center;">S</span><span class="muted" style="font-size:11px;width:30px;text-align:center;">S</span>
-              </div>
-              <!-- discipline tracker -->
-              <div class="softcard" style="padding:13px 15px;margin-bottom:11px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
-                  <span style="font-size:12px;">Easy-run discipline</span><span class="ember" style="font-size:12px;">6 / 8 weeks on target</span>
-                </div>
-                <div style="display:flex;gap:4px;">
-                  <i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i><i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i>
-                  <i style="flex:1;height:6px;border-radius:2px;background:#7a3d2a;"></i><i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i>
-                  <i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i><i style="flex:1;height:6px;border-radius:2px;background:#7a3d2a;"></i>
-                  <i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i><i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i>
-                </div>
+              <div style="margin:6px 0 11px;">
+                <p class="label" style="margin-bottom:5px;">Build phase · Week 8 / 16</p><h2 class="serif" style="font-size:22px;font-weight:400;margin:0;">This week</h2>
               </div>
 
-              <!-- today: easy, with a cap -->
-              <div class="softcard" style="padding:16px;margin-bottom:11px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><span class="chip chip-line">Today · Wed</span><span class="muted" style="font-size:11px;">Easy · 8 km</span></div>
-                <div class="serif" style="font-size:20px;margin-bottom:3px;">Easy run</div>
-                <div class="muted" style="font-size:12px;margin-bottom:14px;">Keep it genuinely easy. This is where the race is won.</div>
-                <div style="display:flex;gap:8px;">
-                  <div style="flex:1;background:var(--card-2);border-radius:11px;padding:9px;text-align:center;"><div class="serif ember" style="font-size:16px;">≤ 5:40</div><div class="muted" style="font-size:9px;">pace cap /km</div></div>
-                  <div style="flex:1;background:var(--card-2);border-radius:11px;padding:9px;text-align:center;"><div class="serif ember" style="font-size:16px;">&lt; 138</div><div class="muted" style="font-size:9px;">cap bpm</div></div>
-                  <div style="flex:1;background:var(--card-2);border-radius:11px;padding:9px;text-align:center;"><div class="serif" style="font-size:16px;">45′</div><div class="muted" style="font-size:9px;">time</div></div>
+              <!-- weekly volume + intensity split -->
+              <div class="softcard" style="padding:12px 14px;margin-bottom:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+                  <span style="font-size:12px;">Weekly volume</span>
+                  <span style="font-size:11px;" class="muted"><span class="serif" style="font-size:15px;color:var(--text);">58</span> / 62 km</span>
+                </div>
+                <div style="height:6px;border-radius:3px;background:#221d18;overflow:hidden;"><div style="height:100%;width:80%;background:linear-gradient(90deg,var(--ember),var(--amber));"></div></div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;" class="muted"><span>Easy 78%</span><span>Threshold 14%</span><span>VO₂ 8%</span></div>
+              </div>
+
+              <!-- today: structured threshold session -->
+              <div class="softcard" style="padding:15px;margin-bottom:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="chip chip-ember">Today · Wed</span><span class="muted" style="font-size:11px;">Threshold · 11 km</span></div>
+                <div class="serif" style="font-size:19px;margin-bottom:11px;">5 × 1 km @ 4:05</div>
+                <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px;font-size:11px;">
+                  <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:6px;"><span class="muted">Warm-up</span><span>2 km · 5:30/km</span></div>
+                  <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:6px;"><span class="muted">Main · 5 × 1 km</span><span>4:05/km · 90s jog</span></div>
+                  <div style="display:flex;justify-content:space-between;"><span class="muted">Cool-down</span><span>2 km · 5:30/km</span></div>
+                </div>
+                <div style="display:flex;gap:7px;">
+                  <div style="flex:1;background:var(--card-2);border-radius:10px;padding:8px;text-align:center;"><div class="serif" style="font-size:15px;">4:05</div><div class="muted" style="font-size:8px;">target /km</div></div>
+                  <div style="flex:1;background:var(--card-2);border-radius:10px;padding:8px;text-align:center;"><div class="serif ember" style="font-size:15px;">Z4</div><div class="muted" style="font-size:8px;">HR zone</div></div>
+                  <div style="flex:1;background:var(--card-2);border-radius:10px;padding:8px;text-align:center;"><div class="serif" style="font-size:15px;">~50′</div><div class="muted" style="font-size:8px;">est. time</div></div>
                 </div>
               </div>
 
-              <!-- enforcement flag -->
-              <div class="softcard" style="padding:13px;margin-bottom:11px;background:var(--card-2);border-color:#5a3326;display:flex;gap:9px;align-items:flex-start;">
-                <i data-lucide="flame" class="ember" style="width:15px;height:15px;flex-shrink:0;margin-top:1px;"></i>
-                <span style="font-size:11px;line-height:1.55;" class="muted"><span style="color:var(--text);">Tuesday's easy run hit 5:18/km — too hard.</span> Easy days run hard are the one habit between you and 3:30. Today's capped, and Marco's watching.</span>
+              <!-- full week -->
+              <div style="font-size:11px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);"><span class="muted">Mon · Rest</span><span class="muted">—</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);"><span>Tue · Easy</span><span class="muted">8 km · ≤ 5:40</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);color:var(--ember-soft);"><span>Wed · Threshold</span><span>11 km · today</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);"><span>Thu · Easy</span><span class="muted">8 km · ≤ 5:40</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);"><span class="muted">Fri · Rest</span><span class="muted">—</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);"><span>Sat · Long run</span><span class="muted">30 km</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-top:1px solid var(--line);"><span>Sun · Easy</span><span class="muted">6 km · ≤ 5:40</span></div>
               </div>
-
-              <div style="display:flex;justify-content:space-between;padding:11px 2px;border-top:1px solid var(--line);"><span style="font-size:12px;">Thu · Tempo</span><span class="muted" style="font-size:12px;">12 km</span></div>
-              <div style="display:flex;justify-content:space-between;padding:11px 2px;border-top:1px solid var(--line);"><span style="font-size:12px;">Sat · Long run</span><span class="muted" style="font-size:12px;">28 km</span></div>
             </div>
             <div class="tabbar"><div class="tab"><i data-lucide="compass"></i>Discover</div><div class="tab"><i data-lucide="trending-up"></i>Progress</div><div class="tab active"><i data-lucide="route"></i>Plan</div><div class="tab"><i data-lucide="user-round"></i>Human</div></div>
           </div>
         </div>
-        <div class="pcap"><div class="t">Discipline that sticks</div><div class="s">Caps your easy days and holds you to the training that actually wins the race.</div></div>
+        <div class="pcap"><div class="t">The training plan</div><div class="s">Structured workouts, weekly load, rebuilt around your life.</div></div>
       </div>
 
       <!-- COACH -->
@@ -387,7 +397,7 @@
 <hr class="hair" />
 
 <!-- PRICING -->
-<section class="wrap" style="padding:110px 0;">
+<section class="wrap band" style="padding:110px 0;">
   <p class="label reveal" style="margin-bottom:14px;">Pricing</p>
   <h2 class="serif reveal" style="font-size:clamp(26px,3.6vw,40px);font-weight:400;line-height:1.2;margin:0 0 14px;max-width:22ch;">
     Two ways to chase your time.
@@ -444,7 +454,7 @@
   <h2 class="serif" style="font-size:clamp(40px,7vw,82px);font-weight:400;line-height:1.05;margin:0 0 26px;max-width:16ch;margin-inline:auto;">
     Run the race you've been putting off.
   </h2>
-  <p class="muted" style="font-size:15px;margin:0 0 38px;">Private, by invitation.</p>
+  <p class="muted" style="font-size:15px;margin:0 0 38px;">Built by runners. Access by invitation.</p>
   <a href="#" class="cta" style="font-size:14px;">Request access
     <svg width="24" height="10" viewBox="0 0 22 10" fill="none"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
   </a>
@@ -463,6 +473,8 @@
   // ---- Italian translation (DRAFT — needs native running-literate transcreation before launch) ----
   const IT = {
     "Login":"Accedi",
+    "Official partners":"Partner ufficiali",
+    "Coaches certified by":"Coach certificati da",
     "Built by runners. Access by invitation.":"Creato da chi corre. Accesso su invito.",
     "Train for your marathon.":"Allenati per la tua maratona.",
     "Hit your":"Batti il tuo","time":"tempo",
@@ -495,7 +507,10 @@
     "The 12-minute gap":"I 12 minuti di distacco","is your easy runs, run too hard. Hold pace and you're back on for 3:30.":"sono i tuoi lenti, corsi troppo forte. Tieni il ritmo e torni in linea per 3:30.",
     "An honest verdict on your goal time, every week.":"Un verdetto onesto sul tuo tempo, ogni settimana.",
     "This week":"Questa settimana","Your plan":"Il tuo piano","Today · Wed":"Oggi · Mer",
-    "Tempo run":"Corsa a ritmo","3 km easy · 6 km @ 4:42 · 3 km easy":"3 km lenti · 6 km @ 4:42 · 3 km lenti","est.":"stim.",
+    "Build phase · Week 8 / 16":"Fase di costruzione · Settimana 8 / 16","Weekly volume":"Volume settimanale","Threshold · 11 km":"Soglia · 11 km",
+    "Warm-up":"Riscaldamento","Main · 5 × 1 km":"Lavoro · 5 × 1 km","Cool-down":"Defaticamento","target /km":"obiettivo /km","HR zone":"zona FC","est. time":"tempo stim.",
+    "Mon · Rest":"Lun · Riposo","Tue · Easy":"Mar · Lento","Wed · Threshold":"Mer · Soglia","Fri · Rest":"Ven · Riposo","Sun · Easy":"Dom · Lento","11 km · today":"11 km · oggi",
+    "The training plan":"Il piano di allenamento","Structured workouts, weekly load, rebuilt around your life.":"Allenamenti strutturati, carico settimanale, ricostruito sulla tua vita.",
     "Easy days capped at 5:40/km.":"I lenti a non più di 5:40/km.","You ran your last three too hard — that's the 12 minutes. We hold you to it.":"Gli ultimi tre li hai corsi troppo forte: sono quei 12 minuti. Al ritmo ti teniamo noi.",
     "Rebuilt after your missed week. Volume eased 15%.":"Ricostruito dopo la settimana saltata. Volume ridotto del 15%.",
     "Thu · Easy":"Gio · Lento","Sat · Long run":"Sab · Lungo",
