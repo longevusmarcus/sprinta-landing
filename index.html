@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sprinta</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0908;--screen:#0C0B09;--card:#15120F;--card-2:#1B1713;
+    --text:#ECE7DE;--muted:#8B857A;--faint:#4A453D;--line:#211F1B;
+    --ember:#C2643B;--ember-soft:#D88A63;--mint:#7BB89A;--rw-dim:#5b554b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg)!important;color:var(--text)!important;font-family:'Inter',sans-serif!important;
+    font-weight:300!important;margin:0!important;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .serif{font-family:'Playfair Display',serif!important;}
+  .wrap{max-width:1120px;margin-inline:auto;padding-inline:32px;}
+  .muted{color:var(--muted)!important;}.ember{color:var(--ember)!important;}
+  .label{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);font-weight:400;}
+  .hair{height:1px;background:var(--line);border:0;}
+  .cta{display:inline-flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--text);text-decoration:none;padding-bottom:8px;border-bottom:1px solid var(--ember);transition:gap .25s,color .25s;}
+  .cta:hover{gap:20px;color:var(--ember);}
+  .cta-sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;}
+  .cta-sm:hover{color:var(--text);}
+  .sowhat{font-style:italic;color:var(--ember);font-family:'Playfair Display',serif;font-size:17px;}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 1s ease,transform 1s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.025;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .step{display:grid;grid-template-columns:90px 1fr;gap:28px;padding:30px 0;}
+  @media(max-width:640px){.step{grid-template-columns:1fr;gap:10px;}}
+  .rw{color:var(--rw-dim);transition:color .25s ease;}
+  .rw-accent{font-style:italic;}
+
+  /* comparison */
+  .cmp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table.cmp{width:100%;border-collapse:collapse;min-width:680px;}
+  table.cmp th,table.cmp td{padding:20px 16px;text-align:center;border-bottom:1px solid var(--line);font-weight:300;font-size:14px;}
+  table.cmp th{font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);vertical-align:bottom;}
+  table.cmp td:first-child,table.cmp th:first-child{text-align:left;color:var(--text);font-size:15px;width:30%;}
+  table.cmp .col-sprinta{background:rgba(194,100,59,.07);}
+  table.cmp th.col-sprinta{color:var(--ember);font-family:'Playfair Display';font-weight:500;font-size:18px;letter-spacing:0;text-transform:none;}
+  .yes{color:var(--ember);font-size:18px;}.yes-m{color:var(--text);font-size:16px;}.no{color:var(--faint);}.part{color:var(--muted);font-size:12px;}
+
+  /* phone */
+  .frame{width:300px;height:636px;background:var(--screen);border:1px solid #2a241e;border-radius:42px;
+    padding:11px;box-shadow:0 40px 90px -34px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.02) inset;position:relative;flex:0 0 auto;}
+  .screen{width:100%;height:100%;background:var(--screen);border-radius:32px;overflow:hidden;position:relative;display:flex;flex-direction:column;}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:108px;height:23px;background:var(--bg);border-radius:0 0 14px 14px;z-index:20;}
+  .statusbar{display:flex;justify-content:space-between;align-items:center;padding:13px 22px 5px;font-size:11px;color:var(--text);}
+  .scrollbody{flex:1;overflow:hidden;padding:6px 16px 0;}
+  .scrollbody::-webkit-scrollbar{display:none;}
+  .tabbar{display:flex;justify-content:space-around;align-items:center;padding:12px 0 22px;border-top:1px solid var(--line);}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--faint);font-size:8px;letter-spacing:.05em;}
+  .tab.active{color:var(--ember);}.tab i{width:18px;height:18px;}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;font-weight:500;}
+  .chip-ember{background:rgba(194,100,59,.16);color:var(--ember-soft);}
+  .chip-mint{background:rgba(123,184,154,.15);color:var(--mint);}
+  .chip-line{border:1px solid var(--line);color:var(--muted);}
+  .racecard{position:relative;border-radius:20px;overflow:hidden;}
+  .racecard img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85) contrast(1.05);}
+  .racecard .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,8,.1),rgba(10,9,8,.25) 40%,rgba(10,9,8,.92));}
+  .racecard .tint{position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(194,100,59,.22),transparent 60%);mix-blend-mode:screen;}
+  .softcard{background:var(--card);border:1px solid var(--line);border-radius:16px;}
+  .arc-draw{stroke-dasharray:295;stroke-dashoffset:295;animation:draw 1.8s ease .4s forwards;}
+  @keyframes draw{to{stroke-dashoffset:74;}}
+  .spark{display:flex;align-items:flex-end;gap:5px;height:42px;}.spark i{flex:1;background:#2a241e;border-radius:2px;display:block;}.spark i.on{background:var(--ember);}
+  .pcap{text-align:center;margin-top:18px;}.pcap .t{font-family:'Playfair Display';font-size:17px;}.pcap .s{font-size:12px;color:var(--muted);margin-top:3px;max-width:240px;margin-inline:auto;line-height:1.5;}
+  .showcase-row{display:flex;gap:40px;justify-content:flex-start;overflow-x:auto;padding-bottom:20px;-webkit-overflow-scrolling:touch;}
+  .showcase-row::-webkit-scrollbar{height:0;}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="wrap" style="position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;height:88px;">
+  <span class="serif" style="font-size:22px;letter-spacing:.04em;">Sprinta</span>
+  <div style="display:flex;gap:26px;align-items:center;">
+    <a href="#" class="cta-sm langtog">IT</a>
+    <a href="#" class="cta-sm">Login</a>
+  </div>
+</nav>
+
+<!-- HERO with phone -->
+<header class="wrap" style="position:relative;z-index:5;padding-top:40px;padding-bottom:110px;">
+  <div class="grid lg:grid-cols-2 gap-16 items-center">
+    <div>
+      <h1 class="serif reveal in" style="font-size:clamp(40px,6.5vw,76px);line-height:1.04;font-weight:400;margin:0;max-width:15ch;">
+        Train for your marathon.<br><span style="font-style:italic;">Hit your <span class="ember">time</span>.</span>
+      </h1>
+      <p class="reveal in d1 muted" style="font-size:18px;line-height:1.7;max-width:44ch;margin:32px 0 42px;">
+        Sprinta plans your race, stays with you as life gets in the way, and brings in a real coach when it counts, so you reach the start line ready and finish on target.
+      </p>
+      <a href="#begin" class="cta reveal in d2">Request access
+        <svg width="22" height="10" viewBox="0 0 22 10" fill="none"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
+      </a>
+      <p class="serif reveal in d3" style="font-style:italic;font-size:15px;color:var(--muted);letter-spacing:.01em;margin-top:30px;">Built by runners. Access by invitation.</p>
+    </div>
+    <!-- hero phone: Discover -->
+    <div class="reveal in d3" style="display:flex;justify-content:center;">
+      <div class="frame" style="transform:rotate(1.5deg);">
+        <div class="notch"></div>
+        <div class="screen">
+          <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><i data-lucide="signal" style="width:13px;height:13px;"></i><i data-lucide="wifi" style="width:13px;height:13px;"></i><i data-lucide="battery-full" style="width:17px;height:13px;"></i></span></div>
+          <div class="scrollbody">
+            <div style="margin:6px 0 16px;">
+              <p class="label" style="margin-bottom:6px;">Find your race</p>
+              <h2 class="serif" style="font-size:24px;font-weight:400;margin:0;">Pick the one you dream about</h2>
+            </div>
+            <div class="racecard" style="height:200px;margin-bottom:13px;">
+              <img src="https://picsum.photos/seed/valenciamarathon/700/600" alt="Valencia" />
+              <div class="ov"></div><div class="tint"></div>
+              <div style="position:absolute;top:13px;left:13px;"><span class="chip chip-ember">Stretch goal</span></div>
+              <div style="position:absolute;bottom:15px;left:15px;right:15px;">
+                <div class="serif" style="font-size:22px;line-height:1.1;">Valencia<br>Marathon</div>
+                <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:9px;">
+                  <span class="muted" style="font-size:11px;">7 Dec · 🇪🇸 · fast</span>
+                  <span class="chip chip-line">sub-3:30</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:11px;">
+              <div class="racecard" style="height:120px;flex:1;">
+                <img src="https://picsum.photos/seed/firenzerun/400/400" alt="Firenze" /><div class="ov"></div>
+                <div style="position:absolute;top:9px;left:9px;"><span class="chip chip-mint">Realistic</span></div>
+                <div style="position:absolute;bottom:11px;left:11px;"><div class="serif" style="font-size:15px;">Firenze</div><div class="muted" style="font-size:10px;">3:35</div></div>
+              </div>
+              <div class="racecard" style="height:120px;flex:1;">
+                <img src="https://picsum.photos/seed/berlinrun/400/400" alt="Berlin" /><div class="ov"></div>
+                <div style="position:absolute;top:9px;left:9px;"><span class="chip" style="background:rgba(0,0,0,.4);color:var(--ember-soft);">Dream</span></div>
+                <div style="position:absolute;bottom:11px;left:11px;"><div class="serif" style="font-size:15px;">Berlin</div><div class="muted" style="font-size:10px;">2 seasons</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab active"><i data-lucide="compass"></i>Discover</div>
+            <div class="tab"><i data-lucide="route"></i>Plan</div>
+            <div class="tab"><i data-lucide="trending-up"></i>Progress</div>
+            <div class="tab"><i data-lucide="user-round"></i>Human</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<hr class="hair" />
+
+<!-- PROBLEM -->
+<section class="wrap" style="padding:130px 0;">
+  <p id="scrollReveal" class="serif" style="font-size:clamp(27px,3.8vw,42px);line-height:1.45;font-weight:400;max-width:30ch;">There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result.</p>
+</section>
+
+<hr class="hair" />
+
+<!-- HOW IT WORKS -->
+<section class="wrap" style="padding:100px 0 90px;">
+  <p class="label reveal" style="margin-bottom:18px;">How it works</p>
+  <div class="step reveal"><span class="serif ember" style="font-size:32px;">01</span>
+    <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">Choose your race</h3>
+    <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">Pick the marathon and the time you're after. Sprinta tells you, honestly, whether it's within reach this season, or shows you a race that is.</p>
+    <p class="sowhat">So you start with a goal you can actually trust.</p></div></div>
+  <div class="step reveal"><span class="serif ember" style="font-size:32px;">02</span>
+    <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">Get a plan built for it</h3>
+    <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">A plan worked back from race day and your real fitness, synced automatically with Garmin and Strava, so every run you do is already counted.</p>
+    <p class="sowhat">So you train for your race, not a generic template.</p></div></div>
+  <div class="step reveal"><span class="serif ember" style="font-size:32px;">03</span>
+    <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">It keeps you honest</h3>
+    <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">Miss a week or pick up a niggle and your plan rebuilds toward race day. And it holds you to easy-easy, hard-hard, so you stop running your easy days too hard and quietly sabotaging the block.</p>
+    <p class="sowhat">So you do the training that actually works, not just the training you feel like.</p></div></div>
+  <div class="step reveal"><span class="serif ember" style="font-size:32px;">04</span>
+    <div><h3 class="serif" style="font-size:24px;font-weight:400;margin:0 0 10px;">A human, when it counts</h3>
+    <p class="muted" style="font-size:16px;line-height:1.7;max-width:48ch;margin:0 0 12px;">The AI coaches you day to day. For the calls an algorithm shouldn't make, the niggle, the taper, the week it all goes wrong, a certified human steps in alongside you.</p>
+    <p class="sowhat">So someone is accountable for your result, not just your data.</p></div></div>
+</section>
+
+<hr class="hair" />
+
+<!-- INSIDE THE APP — showcase -->
+<section style="padding:110px 0;">
+  <div class="wrap reveal" style="margin-bottom:56px;">
+    <p class="label" style="margin-bottom:16px;">Inside Sprinta</p>
+    <h2 class="serif" style="font-size:clamp(28px,4vw,44px);font-weight:400;line-height:1.15;margin:0;max-width:20ch;">
+      Choose the race. Watch yourself close the gap. <span style="font-style:italic;">Bring in a <span class="ember">human</span> when it counts.</span>
+    </h2>
+  </div>
+
+  <div class="wrap reveal" style="max-width:1180px;">
+    <div class="showcase-row">
+
+      <!-- DISCOVER -->
+      <div>
+        <div class="frame">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><i data-lucide="signal" style="width:13px;height:13px;"></i><i data-lucide="wifi" style="width:13px;height:13px;"></i><i data-lucide="battery-full" style="width:17px;height:13px;"></i></span></div>
+            <div class="scrollbody">
+              <div style="margin:6px 0 14px;"><p class="label" style="margin-bottom:5px;">Find your race</p><h2 class="serif" style="font-size:22px;font-weight:400;margin:0;">Pick the one you dream about</h2></div>
+              <div class="racecard" style="height:188px;margin-bottom:12px;">
+                <img src="https://picsum.photos/seed/valenciamarathon/700/600" alt="Valencia" />
+                <div class="ov"></div><div class="tint"></div>
+                <div style="position:absolute;top:12px;left:12px;"><span class="chip chip-ember">Stretch goal</span></div>
+                <div style="position:absolute;bottom:14px;left:14px;right:14px;">
+                  <div class="serif" style="font-size:21px;line-height:1.1;">Valencia<br>Marathon</div>
+                  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px;">
+                    <span class="muted" style="font-size:11px;">7 Dec · 🇪🇸 · fast</span><span class="chip chip-line">sub-3:30</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;">
+                <div class="racecard" style="height:112px;flex:1;">
+                  <img src="https://picsum.photos/seed/firenzerun/400/400" alt="Firenze" /><div class="ov"></div>
+                  <div style="position:absolute;top:8px;left:8px;"><span class="chip chip-mint">Realistic</span></div>
+                  <div style="position:absolute;bottom:10px;left:10px;"><div class="serif" style="font-size:14px;">Firenze</div><div class="muted" style="font-size:10px;">3:35</div></div>
+                </div>
+                <div class="racecard" style="height:112px;flex:1;">
+                  <img src="https://picsum.photos/seed/berlinrun/400/400" alt="Berlin" /><div class="ov"></div>
+                  <div style="position:absolute;top:8px;left:8px;"><span class="chip" style="background:rgba(0,0,0,.4);color:var(--ember-soft);">Dream</span></div>
+                  <div style="position:absolute;bottom:10px;left:10px;"><div class="serif" style="font-size:14px;">Berlin</div><div class="muted" style="font-size:10px;">2 seasons</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="tabbar"><div class="tab active"><i data-lucide="compass"></i>Discover</div><div class="tab"><i data-lucide="trending-up"></i>Progress</div><div class="tab"><i data-lucide="route"></i>Plan</div><div class="tab"><i data-lucide="user-round"></i>Human</div></div>
+          </div>
+        </div>
+        <div class="pcap"><div class="t">Aspiration</div><div class="s">Browse marathons; each shows the time and training it really needs.</div></div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div>
+        <div class="frame">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><i data-lucide="signal" style="width:13px;height:13px;"></i><i data-lucide="wifi" style="width:13px;height:13px;"></i><i data-lucide="battery-full" style="width:17px;height:13px;"></i></span></div>
+            <div class="scrollbody">
+              <div style="margin:6px 0 14px;"><p class="label" style="margin-bottom:5px;">Valencia · 11 weeks out</p><h2 class="serif" style="font-size:22px;font-weight:400;margin:0;">Where you stand</h2></div>
+              <div class="softcard" style="padding:20px;text-align:center;margin-bottom:13px;">
+                <div style="position:relative;width:170px;height:170px;margin:0 auto;">
+                  <svg width="170" height="170" viewBox="0 0 188 188" style="transform:rotate(-90deg);">
+                    <circle cx="94" cy="94" r="78" fill="none" stroke="#221d18" stroke-width="9"/>
+                    <circle cx="94" cy="94" r="78" fill="none" stroke="var(--ember)" stroke-width="9" stroke-linecap="round" class="arc-draw"/>
+                  </svg>
+                  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                    <span class="muted" style="font-size:10px;letter-spacing:.1em;">PROJECTED</span>
+                    <span class="serif" style="font-size:40px;line-height:1;">3:42</span>
+                    <span class="ember" style="font-size:12px;margin-top:3px;">goal 3:30</span>
+                  </div>
+                </div>
+                <span class="chip chip-mint" style="margin-top:8px;">On track · closing the gap</span>
+              </div>
+              <div class="softcard" style="padding:14px 16px;margin-bottom:13px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span style="font-size:12px;">Fitness trend</span><span class="muted" style="font-size:10px;">8 weeks</span></div>
+                <div class="spark"><i style="height:38%"></i><i style="height:44%"></i><i style="height:41%"></i><i style="height:55%"></i><i style="height:60%"></i><i style="height:58%"></i><i style="height:72%"></i><i class="on" style="height:84%"></i></div>
+              </div>
+              <div class="softcard" style="padding:14px 16px;background:var(--card-2);">
+                <div style="font-size:11px;line-height:1.55;" class="muted"><span style="color:var(--text);">The 12-minute gap</span> is your easy runs, run too hard. Hold pace and you're back on for 3:30.</div>
+              </div>
+            </div>
+            <div class="tabbar"><div class="tab"><i data-lucide="compass"></i>Discover</div><div class="tab active"><i data-lucide="trending-up"></i>Progress</div><div class="tab"><i data-lucide="route"></i>Plan</div><div class="tab"><i data-lucide="user-round"></i>Human</div></div>
+          </div>
+        </div>
+        <div class="pcap"><div class="t">Progress</div><div class="s">An honest verdict on your goal time, every week.</div></div>
+      </div>
+
+      <!-- PLAN -->
+      <div>
+        <div class="frame">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><i data-lucide="signal" style="width:13px;height:13px;"></i><i data-lucide="wifi" style="width:13px;height:13px;"></i><i data-lucide="battery-full" style="width:17px;height:13px;"></i></span></div>
+            <div class="scrollbody">
+              <div style="margin:6px 0 14px;">
+                <p class="label" style="margin-bottom:5px;">This week</p><h2 class="serif" style="font-size:22px;font-weight:400;margin:0;">Your plan</h2>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:14px;">
+                <span class="muted" style="font-size:11px;width:30px;text-align:center;">M</span><span class="muted" style="font-size:11px;width:30px;text-align:center;">T</span>
+                <span style="font-size:11px;width:30px;text-align:center;color:var(--text);background:var(--ember);border-radius:9px;padding:5px 0;">W</span>
+                <span class="muted" style="font-size:11px;width:30px;text-align:center;">T</span><span class="muted" style="font-size:11px;width:30px;text-align:center;">F</span>
+                <span class="muted" style="font-size:11px;width:30px;text-align:center;">S</span><span class="muted" style="font-size:11px;width:30px;text-align:center;">S</span>
+              </div>
+              <!-- discipline tracker -->
+              <div class="softcard" style="padding:13px 15px;margin-bottom:11px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+                  <span style="font-size:12px;">Easy-run discipline</span><span class="ember" style="font-size:12px;">6 / 8 weeks on target</span>
+                </div>
+                <div style="display:flex;gap:4px;">
+                  <i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i><i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i>
+                  <i style="flex:1;height:6px;border-radius:2px;background:#7a3d2a;"></i><i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i>
+                  <i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i><i style="flex:1;height:6px;border-radius:2px;background:#7a3d2a;"></i>
+                  <i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i><i style="flex:1;height:6px;border-radius:2px;background:var(--ember);"></i>
+                </div>
+              </div>
+
+              <!-- today: easy, with a cap -->
+              <div class="softcard" style="padding:16px;margin-bottom:11px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><span class="chip chip-line">Today · Wed</span><span class="muted" style="font-size:11px;">Easy · 8 km</span></div>
+                <div class="serif" style="font-size:20px;margin-bottom:3px;">Easy run</div>
+                <div class="muted" style="font-size:12px;margin-bottom:14px;">Keep it genuinely easy. This is where the race is won.</div>
+                <div style="display:flex;gap:8px;">
+                  <div style="flex:1;background:var(--card-2);border-radius:11px;padding:9px;text-align:center;"><div class="serif ember" style="font-size:16px;">≤ 5:40</div><div class="muted" style="font-size:9px;">pace cap /km</div></div>
+                  <div style="flex:1;background:var(--card-2);border-radius:11px;padding:9px;text-align:center;"><div class="serif ember" style="font-size:16px;">&lt; 138</div><div class="muted" style="font-size:9px;">cap bpm</div></div>
+                  <div style="flex:1;background:var(--card-2);border-radius:11px;padding:9px;text-align:center;"><div class="serif" style="font-size:16px;">45′</div><div class="muted" style="font-size:9px;">time</div></div>
+                </div>
+              </div>
+
+              <!-- enforcement flag -->
+              <div class="softcard" style="padding:13px;margin-bottom:11px;background:var(--card-2);border-color:#5a3326;display:flex;gap:9px;align-items:flex-start;">
+                <i data-lucide="flame" class="ember" style="width:15px;height:15px;flex-shrink:0;margin-top:1px;"></i>
+                <span style="font-size:11px;line-height:1.55;" class="muted"><span style="color:var(--text);">Tuesday's easy run hit 5:18/km — too hard.</span> Easy days run hard are the one habit between you and 3:30. Today's capped, and Marco's watching.</span>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;padding:11px 2px;border-top:1px solid var(--line);"><span style="font-size:12px;">Thu · Tempo</span><span class="muted" style="font-size:12px;">12 km</span></div>
+              <div style="display:flex;justify-content:space-between;padding:11px 2px;border-top:1px solid var(--line);"><span style="font-size:12px;">Sat · Long run</span><span class="muted" style="font-size:12px;">28 km</span></div>
+            </div>
+            <div class="tabbar"><div class="tab"><i data-lucide="compass"></i>Discover</div><div class="tab"><i data-lucide="trending-up"></i>Progress</div><div class="tab active"><i data-lucide="route"></i>Plan</div><div class="tab"><i data-lucide="user-round"></i>Human</div></div>
+          </div>
+        </div>
+        <div class="pcap"><div class="t">Discipline that sticks</div><div class="s">Caps your easy days and holds you to the training that actually wins the race.</div></div>
+      </div>
+
+      <!-- COACH -->
+      <div>
+        <div class="frame">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center;"><i data-lucide="signal" style="width:13px;height:13px;"></i><i data-lucide="wifi" style="width:13px;height:13px;"></i><i data-lucide="battery-full" style="width:17px;height:13px;"></i></span></div>
+            <div class="scrollbody">
+              <div style="margin:6px 0 16px;"><p class="label" style="margin-bottom:5px;">Human support</p><h2 class="serif" style="font-size:22px;font-weight:400;margin:0;">A human in your corner</h2></div>
+              <div class="softcard" style="padding:18px;text-align:center;margin-bottom:13px;">
+                <div style="width:76px;height:76px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#2a241e,#15120f);border:1px solid var(--ember);display:flex;align-items:center;justify-content:center;"><span class="serif ember" style="font-size:27px;">MR</span></div>
+                <div class="serif" style="font-size:19px;">Marco Rossi</div>
+                <div class="muted" style="font-size:11px;margin-top:3px;">Certified coach · ex-2:28 marathoner</div>
+                <div style="display:flex;justify-content:center;gap:7px;margin-top:11px;"><span class="chip chip-line">FIDAL certified</span><span class="chip chip-mint">&lt; 4h reply</span></div>
+              </div>
+              <div style="display:flex;gap:9px;margin-bottom:14px;">
+                <div style="width:30px;height:30px;border-radius:50%;background:#1B1713;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="ember" style="font-size:11px;">MR</span></div>
+                <div style="background:var(--card);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:11px 13px;font-size:12px;line-height:1.55;">Good week. Hold those easy runs back and I'll check your long run Saturday. We're closing on 3:30. 👊<div class="muted" style="font-size:9px;margin-top:5px;">Today · 08:24</div></div>
+              </div>
+              <button style="width:100%;background:var(--ember);color:#180c07;border:0;border-radius:13px;padding:14px;font-family:'Inter';font-weight:600;font-size:13px;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:8px;">
+                <i data-lucide="calendar-check" style="width:16px;height:16px;"></i> Book a check-in
+              </button>
+              <p class="muted" style="font-size:10px;text-align:center;margin-top:9px;">Next available · tomorrow 18:00</p>
+            </div>
+            <div class="tabbar"><div class="tab"><i data-lucide="compass"></i>Discover</div><div class="tab"><i data-lucide="trending-up"></i>Progress</div><div class="tab"><i data-lucide="route"></i>Plan</div><div class="tab active"><i data-lucide="user-round"></i>Human</div></div>
+          </div>
+        </div>
+        <div class="pcap"><div class="t">The human</div><div class="s">A certified coach you message and book when it counts.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="hair" />
+
+<!-- COMPARISON -->
+<section class="wrap" style="padding:110px 0;">
+  <p class="label reveal" style="margin-bottom:14px;">How Sprinta compares</p>
+  <h2 class="serif reveal" style="font-size:clamp(26px,3.6vw,40px);font-weight:400;line-height:1.2;margin:0 0 18px;max-width:24ch;">
+    Better coaching for<br><span class="ember" style="font-style:italic;">half and full marathons</span>.
+  </h2>
+  <p class="muted reveal" style="font-size:15px;line-height:1.6;max-width:46ch;margin:0 0 44px;">Built for one thing: the half and full marathon, for runners chasing a time. Not a generic all-distance app.</p>
+  <div class="cmp-scroll reveal">
+    <table class="cmp">
+      <thead><tr><th></th><th class="col-sprinta">Sprinta</th><th>Runna</th><th>TrainAsONE</th><th>Garmin Coach</th><th>Offline coach</th></tr></thead>
+      <tbody>
+        <tr><td>Built for half &amp; full marathon · time goals</td><td class="col-sprinta"><span class="yes">✓</span></td><td><span class="part">All distances</span></td><td><span class="part">All distances</span></td><td><span class="part">All distances</span></td><td><span class="part">Anyone</span></td></tr>
+        <tr><td>Adapts to missed weeks &amp; niggles</td><td class="col-sprinta"><span class="yes">✓</span></td><td><span class="part">Limited</span></td><td><span class="yes-m">✓</span></td><td><span class="part">Limited</span></td><td><span class="yes-m">✓</span></td></tr>
+        <tr><td>Honest readiness toward your goal time</td><td class="col-sprinta"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="part">Predicts only</span></td><td><span class="part">Predicts only</span></td><td><span class="yes-m">✓</span></td></tr>
+        <tr><td>Syncs with Garmin &amp; Strava</td><td class="col-sprinta"><span class="yes">✓</span></td><td><span class="yes-m">✓</span></td><td><span class="yes-m">✓</span></td><td><span class="part">Native</span></td><td><span class="no">—</span></td></tr>
+        <tr><td>A real coach, accountable for your race</td><td class="col-sprinta"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes-m">✓</span></td></tr>
+        <tr><td>Human judgement on injury &amp; taper</td><td class="col-sprinta"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes-m">✓</span></td></tr>
+        <tr><td>Monthly cost</td><td class="col-sprinta"><span class="ember">€8–46</span></td><td>~€15</td><td>~€15</td><td>Free</td><td>€150–300</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+<hr class="hair" />
+
+<!-- PRICING -->
+<section class="wrap" style="padding:110px 0;">
+  <p class="label reveal" style="margin-bottom:14px;">Pricing</p>
+  <h2 class="serif reveal" style="font-size:clamp(26px,3.6vw,40px);font-weight:400;line-height:1.2;margin:0 0 14px;max-width:22ch;">
+    Two ways to chase your time.
+  </h2>
+  <p class="muted reveal" style="font-size:16px;max-width:50ch;margin:0 0 48px;line-height:1.6;">
+    Billed once a year, the way you actually train — for a season, toward one race. Start with the app; add a real coach when the time matters.
+  </p>
+
+  <div class="reveal grid md:grid-cols-2" style="gap:20px;max-width:740px;margin:0 auto;align-items:stretch;">
+
+    <!-- App -->
+    <div class="softcard" style="padding:32px 28px;display:flex;flex-direction:column;">
+      <div class="label" style="margin-bottom:14px;">App</div>
+      <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:4px;"><span class="serif" style="font-size:46px;">€99</span><span class="muted" style="font-size:14px;">/year</span></div>
+      <div class="muted" style="font-size:12px;margin-bottom:18px;">≈ €8/month, billed yearly</div>
+      <p class="muted" style="font-size:13px;line-height:1.5;margin:0 0 22px;min-height:38px;">Everything the apps do — built around your race, not a template.</p>
+      <ul style="list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:1.4;">
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Adaptive plan, rebuilt around your life</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Easy/hard intensity enforcement</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Honest readiness toward your goal</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Garmin &amp; Strava sync</li>
+      </ul>
+      <p class="muted" style="font-size:11px;font-style:italic;margin:0 0 22px;">Less than the monthly apps cost in a year.</p>
+      <a href="#begin" class="cta-sm" style="margin-top:auto;">Request access →</a>
+    </div>
+
+    <!-- Coached — hero -->
+    <div class="softcard" style="padding:34px 28px;display:flex;flex-direction:column;border-color:var(--ember);background:rgba(194,100,59,.05);position:relative;">
+      <div class="label" style="margin-bottom:14px;color:var(--ember-soft);">Coached</div>
+      <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:4px;"><span class="serif" style="font-size:52px;">€549</span><span class="muted" style="font-size:14px;">/year</span></div>
+      <div class="muted" style="font-size:12px;margin-bottom:18px;">≈ €46/month, billed yearly</div>
+      <p class="muted" style="font-size:13px;line-height:1.5;margin:0 0 22px;min-height:38px;">The same app, plus a real coach personalising it and on the calls that decide your race.</p>
+      <ul style="list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:1.4;">
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Everything in the App</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> A certified human coach, matched to you</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> A video check-in every month</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Your coach owns your taper &amp; injury calls</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> A human accountable for your result</li>
+        <li style="display:flex;gap:9px;align-items:flex-start;"><span class="ember">✓</span> Message your coach any time</li>
+      </ul>      <a href="#begin" class="cta" style="font-size:12px;margin-top:auto;justify-content:center;">Request access
+        <svg width="20" height="9" viewBox="0 0 22 10" fill="none"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <p class="muted reveal" style="font-size:12px;margin-top:24px;text-align:center;">30-day money-back guarantee</p>
+</section>
+
+<hr class="hair" />
+
+<!-- BEGIN -->
+<section id="begin" class="wrap reveal" style="padding:150px 0 120px;text-align:center;">
+  <h2 class="serif" style="font-size:clamp(40px,7vw,82px);font-weight:400;line-height:1.05;margin:0 0 26px;max-width:16ch;margin-inline:auto;">
+    Run the race you've been putting off.
+  </h2>
+  <p class="muted" style="font-size:15px;margin:0 0 38px;">Private, by invitation.</p>
+  <a href="#" class="cta" style="font-size:14px;">Request access
+    <svg width="24" height="10" viewBox="0 0 22 10" fill="none"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
+  </a>
+</section>
+
+<footer class="wrap" style="padding:50px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--line);">
+  <div style="display:flex;gap:32px;"><a href="#" class="cta-sm">Privacy</a><a href="#" class="cta-sm">Terms</a><a href="#" class="cta-sm langtog">IT</a></div>
+  <span class="label">© 2026 · Sprinta</span>
+</footer>
+
+<script>
+  lucide.createIcons();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // ---- Italian translation (DRAFT — needs native running-literate transcreation before launch) ----
+  const IT = {
+    "Login":"Accedi",
+    "Built by runners. Access by invitation.":"Creato da chi corre. Accesso su invito.",
+    "Train for your marathon.":"Allenati per la tua maratona.",
+    "Hit your":"Batti il tuo","time":"tempo",
+    "Sprinta plans your race, stays with you as life gets in the way, and brings in a real coach when it counts, so you reach the start line ready and finish on target.":"Sprinta pianifica la tua gara, ti segue quando la vita si mette di mezzo e ti affianca un vero coach quando serve, così arrivi alla partenza pronto e chiudi nel tempo che vuoi.",
+    "Request access":"Richiedi accesso",
+    "Find your race":"Trova la tua gara","Pick the one you dream about":"Scegli quella che sogni",
+    "Stretch goal":"Obiettivo ambizioso","Realistic":"Realistica","Dream":"Sogno",
+    "Marathon":"Maratona","2 seasons":"2 stagioni","7 Dec · 🇪🇸 · fast":"7 dic · 🇪🇸 · veloce",
+    "Discover":"Scopri","Progress":"Progressi","Plan":"Piano","Human":"Umano",
+    "There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result.":"C'è una maratona che vuoi correre, e un tempo che insegui. Per arrivarci non servono altri dati: serve un coaching che si adatta alla tua vita, la disciplina che decide le gare e una persona vera che risponde del tuo risultato.",
+    "How it works":"Come funziona",
+    "Choose your race":"Scegli la tua gara",
+    "Pick the marathon and the time you're after. Sprinta tells you, honestly, whether it's within reach this season, or shows you a race that is.":"Scegli la maratona e il tempo che vuoi. Sprinta ti dice, onestamente, se è alla tua portata questa stagione, o ti mostra una gara che lo è.",
+    "So you start with a goal you can actually trust.":"Così parti da un obiettivo di cui ti puoi davvero fidare.",
+    "Get a plan built for it":"Ricevi un piano su misura",
+    "A plan worked back from race day and your real fitness, synced automatically with Garmin and Strava, so every run you do is already counted.":"Un piano costruito a ritroso dal giorno della gara e dalla tua forma attuale, sincronizzato in automatico con Garmin e Strava: ogni corsa che fai viene già conteggiata.",
+    "So you train for your race, not a generic template.":"Così ti alleni per la tua gara, non su una scheda generica.",
+    "It keeps you honest":"Ti tiene in riga",
+    "Miss a week or pick up a niggle and your plan rebuilds toward race day. And it holds you to easy-easy, hard-hard, so you stop running your easy days too hard and quietly sabotaging the block.":"Salti una settimana o ti viene un fastidio e il piano si ricostruisce verso il giorno della gara. E ti tiene ai ritmi giusti — lenti i lenti, forti i forti — così smetti di correre i lenti troppo forte e di mandare all'aria il blocco senza accorgertene.",
+    "So you do the training that actually works, not just the training you feel like.":"Così fai l'allenamento che funziona davvero, non quello che ti va sul momento.",
+    "A human, when it counts":"Un umano, quando conta",
+    "The AI coaches you day to day. For the calls an algorithm shouldn't make, the niggle, the taper, the week it all goes wrong, a certified human steps in alongside you.":"L'AI ti allena giorno per giorno. Per le scelte che un algoritmo non dovrebbe fare, il fastidio, lo scarico, la settimana in cui va tutto storto, entra in gioco un coach umano certificato, al tuo fianco.",
+    "So someone is accountable for your result, not just your data.":"Così qualcuno risponde del tuo risultato, non solo i tuoi dati.",
+    "Inside Sprinta":"Dentro Sprinta",
+    "Choose the race. Watch yourself close the gap.":"Scegli la gara. Guarda il distacco accorciarsi.",
+    "Bring in a":"Fatti affiancare da un","human":"umano","when it counts.":"quando conta.",
+    "Valencia · 11 weeks out":"Valencia · tra 11 settimane","Where you stand":"A che punto sei",
+    "PROJECTED":"PREVISTO","goal 3:30":"obiettivo 3:30","On track · closing the gap":"In linea · stai recuperando",
+    "Fitness trend":"Andamento forma","8 weeks":"8 settimane",
+    "The 12-minute gap":"I 12 minuti di distacco","is your easy runs, run too hard. Hold pace and you're back on for 3:30.":"sono i tuoi lenti, corsi troppo forte. Tieni il ritmo e torni in linea per 3:30.",
+    "An honest verdict on your goal time, every week.":"Un verdetto onesto sul tuo tempo, ogni settimana.",
+    "This week":"Questa settimana","Your plan":"Il tuo piano","Today · Wed":"Oggi · Mer",
+    "Tempo run":"Corsa a ritmo","3 km easy · 6 km @ 4:42 · 3 km easy":"3 km lenti · 6 km @ 4:42 · 3 km lenti","est.":"stim.",
+    "Easy days capped at 5:40/km.":"I lenti a non più di 5:40/km.","You ran your last three too hard — that's the 12 minutes. We hold you to it.":"Gli ultimi tre li hai corsi troppo forte: sono quei 12 minuti. Al ritmo ti teniamo noi.",
+    "Rebuilt after your missed week. Volume eased 15%.":"Ricostruito dopo la settimana saltata. Volume ridotto del 15%.",
+    "Thu · Easy":"Gio · Lento","Sat · Long run":"Sab · Lungo",
+    "The adaptive plan":"Il piano adattivo","Built for your race, rebuilt when life intervenes.":"Costruito per la tua gara, ricostruito quando la vita si mette di mezzo.",
+    "Human support":"Supporto umano","A human in your corner":"Un umano dalla tua parte",
+    "Certified coach · ex-2:28 marathoner":"Coach certificato · ex maratoneta 2:28","FIDAL certified":"Certificato FIDAL","< 4h reply":"Risponde entro 4h",
+    "Good week. Hold those easy runs back and I'll check your long run Saturday. We're closing on 3:30. 👊":"Bella settimana. Tieni a bada i lenti e sabato controllo il tuo lungo. Ci stiamo avvicinando a 3:30. 👊",
+    "Today · 08:24":"Oggi · 08:24","Book a check-in":"Prenota una sessione","Next available · tomorrow 18:00":"Prima disponibilità · domani 18:00",
+    "The human":"L'umano","A certified coach you message and book when it counts.":"Un coach certificato da scrivere e prenotare quando serve.",
+    "How Sprinta compares":"Sprinta a confronto",
+    "Built for one thing: the half and full marathon, for runners chasing a time. Not a generic all-distance app.":"Pensato per una cosa sola: la mezza e la maratona, per chi insegue un tempo. Non un'app generica per tutte le distanze.",
+    "Better coaching for":"Un coaching migliore per","half and full marathons":"la mezza e la maratona",
+    "Offline coach":"Coach di persona",
+    "Adapts to missed weeks & niggles":"Si adatta a settimane saltate e fastidi",
+    "Honest readiness toward your goal time":"Verdetto onesto sul tempo obiettivo",
+    "Syncs with Garmin & Strava":"Si sincronizza con Garmin e Strava",
+    "A real coach, accountable for your race":"Un vero coach, responsabile della tua gara",
+    "Human judgement on injury & taper":"Giudizio umano su infortuni e scarico",
+    "Monthly cost":"Costo mensile",
+    "Limited":"Parziale","Predicts only":"Solo stima","Native":"Nativo","Free":"Gratis",
+    "Built for half & full marathon · time goals":"Pensato per la mezza e la maratona · obiettivi di tempo","All distances":"Tutte le distanze","Anyone":"Chiunque",
+    "Pricing":"Prezzi",
+    "Two ways to chase your time.":"Due modi per inseguire il tuo tempo.",
+    "Billed once a year, the way you actually train — for a season, toward one race. Start with the app; add a real coach when the time matters.":"Fatturato una volta l'anno, come ti alleni davvero: per una stagione, verso una gara. Inizia con l'app; aggiungi un vero coach quando conta.",
+    "/year":"/anno","≈ €8/month, billed yearly":"≈ €8/mese, fatturato annualmente","≈ €46/month, billed yearly":"≈ €46/mese, fatturato annualmente",
+    "Everything the apps do — built around your race, not a template.":"Tutto quello che fanno le altre app, ma costruito sulla tua gara, non su un modello.",
+    "Adaptive plan, rebuilt around your life":"Un piano che si adatta alla tua vita",
+    "Easy/hard intensity enforcement":"Controllo dell'intensità: lenti e forti al ritmo giusto",
+    "Honest readiness toward your goal":"Verdetto onesto sul tuo obiettivo",
+    "Garmin & Strava sync":"Sincronizzazione con Garmin e Strava",
+    "Less than the monthly apps cost in a year.":"Meno di quanto spenderesti in un anno con le app mensili.",
+    "Coached":"Con coach",
+    "The same app, plus a real coach personalising it and on the calls that decide your race.":"La stessa app, più un vero coach che la personalizza e decide nei momenti che contano per la tua gara.",
+    "Everything in the App":"Tutto quello che c'è nel piano App",
+    "A certified human coach, matched to you":"Un coach umano certificato, scelto per te",
+    "A video check-in every month":"Una videochiamata ogni mese",
+    "Your coach owns your taper & injury calls":"Il coach gestisce scarico e infortuni",
+    "A human accountable for your result":"Un umano che risponde del tuo risultato",
+    "Message your coach any time":"Scrivi al tuo coach quando vuoi",
+    "30-day money-back guarantee":"Garanzia soddisfatti o rimborsati entro 30 giorni",
+    "Run the race you've been putting off.":"Corri la gara che continui a rimandare.",
+    "Private, by invitation.":"Privato, su invito.",
+    "Terms":"Termini","© 2026 · for runners in Italy":"© 2026 · per chi corre in Italia"
+  };
+
+  const manifesto = {
+    en:"There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result.",
+    it:IT["There's a marathon you want, and a time you're chasing. Getting there doesn't take more data — it takes coaching that adapts to your life, the discipline that decides races, and a real person accountable for the result."]
+  };
+  const revealEl=document.getElementById('scrollReveal');
+  let spans=[], ticking=false;
+  function buildManifesto(l){
+    const txt = l==='it'?manifesto.it:manifesto.en;
+    revealEl.innerHTML = txt.split(/\s+/).map(w=>'<span class="rw'+(w.toLowerCase().replace(/[^a-zà-ù]/gi,'')==='coaching'?' rw-accent':'')+'">'+w+'</span>').join(' ');
+    spans=revealEl.querySelectorAll('.rw');
+    updateReveal();
+  }
+  function updateReveal(){
+    if(!revealEl) return;
+    const r=revealEl.getBoundingClientRect(), vh=window.innerHeight;
+    const start=vh*0.9, end=vh*0.4;
+    const f=Math.min(1,Math.max(0,(start-r.top)/(start-end)));
+    const lit=Math.round(f*spans.length);
+    for(let i=0;i<spans.length;i++){
+      const accent=spans[i].classList.contains('rw-accent');
+      spans[i].style.color = i<lit ? (accent?'var(--ember)':'var(--text)') : 'var(--rw-dim)';
+    }
+    ticking=false;
+  }
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(updateReveal);ticking=true;}},{passive:true});
+  window.addEventListener('resize',updateReveal);
+
+  // collect translatable text nodes (skip the manifesto, handled separately)
+  const tnodes=[];
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){
+    if(revealEl && revealEl.contains(n)) return NodeFilter.FILTER_REJECT;
+    return n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+  }});
+  while(walker.nextNode()){
+    const n=walker.currentNode, t=n.nodeValue.trim();
+    if(IT[t]) tnodes.push({n:n, en:n.nodeValue, it:n.nodeValue.replace(t, IT[t])});
+  }
+  let lang='en';
+  function setLang(l){
+    lang=l;
+    tnodes.forEach(o=>{o.n.nodeValue = l==='it' ? o.it : o.en;});
+    buildManifesto(l);
+    document.documentElement.lang=l;
+    document.querySelectorAll('.langtog').forEach(b=>b.textContent = l==='it' ? 'EN' : 'IT');
+  }
+  document.querySelectorAll('.langtog').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();setLang(lang==='it'?'en':'it');}));
+  buildManifesto('en');
+</script>
+</body>
+</html>
